@@ -21,7 +21,7 @@ export default function Events() {
     fetchEvents();
   }, []);
 
-  if (loading) return <p>Loading events...</p>;
+  if (loading) return <p className="text-lg font-semibold text-center py-4">Loading Events...</p>;
 
   return (
     <div className="px-6 py-8 bg-gray-50 min-h-screen">

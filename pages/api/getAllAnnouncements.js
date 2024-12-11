@@ -1,11 +1,9 @@
-//pages/api/saveData.js
+// pages/api/getAllData.js
 
 import { MongoClient } from "mongodb";
 
 export default async function handler(req, res) {
-    if (req.method === "POST") {
-        const { data } = req.body;
-
+    if (req.method === "GET") {
         const client = new MongoClient(process.env.MONGODB_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
@@ -15,14 +13,13 @@ export default async function handler(req, res) {
             await client.connect();
 
             // Choose a name for your database
-            const database = client.db("user_data_db");
+            const database = client.db("announcements_db");
 
             // Choose a name for your collection
-            const collection = database.collection("user_data_collection");
+            const collection = database.collection("announcements_collection");
+            const allData = await collection.find({}).toArray();
 
-            await collection.insertOne({ data });
-
-            res.status(201).json({ message: "Data saved successfully!" });
+            res.status(200).json(allData);
         } catch (error) {
             res.status(500).json({ message: "Something went wrong!" });
         } finally {
